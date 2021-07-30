@@ -2,34 +2,35 @@ import { useState } from 'react';
 import Modal from 'react-modal'; // é preciso tipar ele, quando estar utilizando o TypeScript
 import { Dashboard } from "./components/Dashboard";
 import { Header } from "./components/Header";
+import { NewTransactionModal } from './components/NewTransactionModal';
 import { GlobalStyle } from "./styles/global";
 
 
-Modal.setAppElement('#root'); // para aces
+Modal.setAppElement('#root'); // para acessibilidade
 
 export function App() {
 
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
 
-  function handleOpenNewTransactionModal(){
+  function handleOpenNewTransactionModal() {
     setIsNewTransactionModalOpen(true);
   }
 
-  function handleCloseNewTransactionModal(){
+  function handleCloseNewTransactionModal() {
     setIsNewTransactionModalOpen(false);
   }
   return (
     <>
-      <Header onOpenNewTransactionModal={handleOpenNewTransactionModal} />
+      <Header 
+      onOpenNewTransactionModal={handleOpenNewTransactionModal}
+      />
 
       <Dashboard />
 
-      <Modal
-        isOpen={isNewTransactionModalOpen}
-        onRequestClose={handleCloseNewTransactionModal} // a função que teve ser executada quando o usario aperta esc, ou clicar fora do modal   
-      >
-        <h2>Cadastrar Transação</h2>
-      </Modal>
+      <NewTransactionModal 
+      isOpen={isNewTransactionModalOpen} 
+      onRequestClose={handleCloseNewTransactionModal}
+      />
 
       <GlobalStyle />
     </>
