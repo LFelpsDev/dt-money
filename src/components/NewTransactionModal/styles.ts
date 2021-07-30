@@ -67,7 +67,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.4s;
+  transition: border-color 0.5s;
 
   &:hover {
     border-color: ${darken(0.3, '#d7d7d7')};
