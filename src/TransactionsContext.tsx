@@ -11,11 +11,29 @@ interface Transaction {
   createdAt: string;
 }
 
+// interface TransactionInput {
+//   title: string;
+//   amout: number;
+//   category: string;
+//   type: string;
+// }
+
+type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>; // pega todos os campos e tira alguns
+
+// type TransactionInput = Pick<Transaction, 'title'| 'amout'| 'category'| 'type'> // pega todos os que estou selecionando
+
 interface TransactionsProviderProps {
   children: ReactNode;
 }
 
-export const  TransactionsContext = createContext<Transaction[]>([]);
+interface TransactionsContextData {
+  transactions: Transaction[];
+  createTransactions: (transactions: TransactionInput) => void;
+}
+
+export const  TransactionsContext = createContext<TransactionsContextData>(
+  {} as TransactionsContextData
+);
 
 
 export function TransactionsProvider({ children }: TransactionsProviderProps){
@@ -26,8 +44,12 @@ export function TransactionsProvider({ children }: TransactionsProviderProps){
       .then(response => setTransactions(response.data.transactions))
   }, []);
 
+  function createTransactions(transactions: TransactionInput){
+    api.post('/transactions',transactions)
+  }
+
   return (
-    <TransactionsContext.Provider value={transactions}>
+    <TransactionsContext.Provider value={{ transactions, createTransactions }}>
       {children}
     </TransactionsContext.Provider>
   )
